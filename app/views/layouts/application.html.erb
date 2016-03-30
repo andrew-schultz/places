@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Places</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.css' rel='stylesheet' />
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.css' type='text/css' />
+</head>
+<body>
+
+	<% if flash[:notice] %>
+		<div class="notice flash" ><%= flash[:notice] %></div>
+	<% end %>
+
+	<% if flash[:alert] %>
+		<div class="alert flash"><%= flash[:alert] %></div>
+	<% end %>
+
+<% if current_user %>
+	<header>
+		<h1>
+			<%= link_to "Places", root_path %>
+		</h1>
+		<nav>
+			<ul>
+				<li> <%= link_to "Home", root_path %></li>
+				<li> <%= link_to "Account", edit_user_path(@user) %></li>
+				<li> <%= link_to "Log Out", log_out_path %></li>
+			</ul>
+		</nav>
+	</header>
+<% else %>
+	<header>
+		<h1>
+			Places
+		</h1>
+		<nav>
+			<ul>
+				<li> <%= link_to "Log In", log_in_path %></li>
+				<li> <%= link_to "Sign Up", new_user_path %></li>
+			</ul>
+		</nav>
+	</header>
+<% end %>
+<%= yield %>
+
+<footer>
+
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+ <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+
+</body>
+</html>

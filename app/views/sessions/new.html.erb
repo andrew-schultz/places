@@ -1,0 +1,15 @@
+<div id="page">
+	<div id="login">
+		<h1>Log In</h1>
+		<%= form_tag log_in_path do %>
+			<%=label_tag(:username) %><br>
+			<%=text_field_tag :username, "", class: "user_input"  %>
+			<br>
+			<br>
+			<%=label_tag :password %><br>
+			<%=password_field_tag :password, "", class: "user_input" %>
+			<br>
+			<%= submit_tag "Log In", :class => "circle_button" %>
+		<% end %>
+	</div>
+</div>
