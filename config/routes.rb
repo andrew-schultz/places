@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'places/index'
+
+  get 'places/new'
+
+  get 'places/show'
+
   root 'home#index'
 
   get '/log_in' => 'sessions#new'
