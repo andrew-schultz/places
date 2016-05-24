@@ -1,2 +1,43 @@
-<h1>Places#show</h1>
-<p>Find me in app/views/places/show.html.erb</p>
+<div id="map_container">
+	<div id="form">
+		<%= render partial: 'places/new', local: {place: @place} %>
+	</div>
+	<% if @user.places.count > 0 %>
+		<div id="feed">
+			<%= render partial: 'places/show', local: {place: @place} %>
+		</div>
+	<% end %>
+	<div id="big_Show">
+		<div class="x_close">&#10006</div>
+		<h2><%= @place.name %></h2>
+		<p><%= @place.address %></p>
+		<p><%= link_to @place.user.username, @place.user %></p>
+		<div id="newReview">
+			<h3>New Review</h3>
+			<%= form_for([@place, @place.reviews.build]) do |f| %>
+				<%= f.hidden_field :user_id, :value => current_user.id %>
+				<%= f.hidden_field :place_id, :value => @place.id %>
+				<%= f.text_area :review, :cols =>30, :rows => 4, :class => "r_user_input" %>
+				<br>
+				<br>
+				<%= f.label :score %>:
+				<%= f.number_field :score, in: 1...11, :class => "user_input" %> / 10
+				<br>
+				<%= f.submit :value=> "New Post", :class => "circle_button" %>
+			<% end %>
+		</div>
+		<% if @reviews.count > 0 %>
+			<% @reviews.each do |r| %>
+				<% if @reviews.last != r %>
+					<div class="place_review">
+						<p><%=r.review %></p>
+						<p><%= r.score %> / 10</p>
+						<p><%= link_to r.user.username, r.user %> - <%= time_ago_in_words(r.created_at) %> ago</p>
+					</div>
+				<% end %>
+			<% end %>
+		<% end %>
+	</div>
+	
+	<div id="map"></div>
+</div>

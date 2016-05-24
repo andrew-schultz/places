@@ -1,0 +1,25 @@
+<div id="big_Show">
+	
+	<div id="x_close">&#10006</div>
+	<h2><%= @place.name %>Maybe One day I'll have content</h2>
+	<p><%= @place.address %></p>
+	<% if @place.reviews.count > 0 %>
+		<% @place.reviews.each do |p| %>
+			<div class="place_review">
+				<p><%= @place.reviews.review %></p>
+				<p><%= @place.reviews.score %>/10 %></p>
+				<p><%= @place.reviews.user %></p>
+			</div>
+		<% end %> 
+	<% end %>
+</div>
+
+<script>
+	$(document).ready(function(){
+		
+		$('#x_close').on('click', function(){
+			$(this).parent().remove();
+		});
+
+	});
+</script>

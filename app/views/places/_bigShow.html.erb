@@ -1,0 +1,27 @@
+<div id="big_Show">
+	<script>
+		console.log('<%= @place.name %>');
+	</script>
+	<div id="x_close">&#10006</div>
+	<h2><%= @place.name %></h2>
+	<p><%= @place.address %></p>
+	<% if @place.reviews.count > 0 %>
+		<% @place.reviews.each do |p| %>
+			<div class="place_review">
+				<p><%= p.review %></p>
+				<p><%= p.score %>/10 %></p>
+				<p><%= p.user %></p>
+			</div>
+		<% end %> 
+	<% end %>
+</div>
+
+<script>
+	$(document).ready(function(){
+		
+		$('#x_close').on('click', function(){
+			$(this).parent().remove();
+		});
+
+	});
+</script>

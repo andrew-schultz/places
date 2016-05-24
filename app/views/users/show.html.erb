@@ -1,0 +1,36 @@
+<div id="map_container">
+	<div id="form">
+		<%= render partial: 'places/new', local: {place: @place} %>
+	</div>
+	<div id="feed">
+		<%= render partial: 'places/show', local: {place: @place} %>
+	</div>
+	<div id="big_Show">
+		<div class="x_close">&#10006</div>
+		<h2><%= @user.username %></h2>
+		<!--users page follow/unfollow-->
+		<% if current_user.id != @user.id %>
+			<% if Relationship.where(followed_id: @user.id, follower_id: current_user.id).first == nil %>
+		 		<%=link_to("follow", follow_path(@user), method: :post)%>
+			<% else %>
+			    <%=link_to("unfollow", unfollow_path(@user), method: :post)%>
+			<% end %>
+		<%end%>	
+		<% @user.places.each do |f| %>
+			<div class="user_place">
+				<p><%= link_to f.name, f %><p>
+				<p><%= f.address %></p>
+				<% f.reviews.each do |r| %>
+				<div class="u_p_review">
+					<p><%= r.review %></p>
+					<p><%= r.score %>/10</p>
+					<p><%= r.user.username %></p>
+				</div>
+				<% end %>
+
+			</div>
+		<% end %>
+	</div>
+	
+	<div id="map"></div>
+</div>

@@ -1,0 +1,29 @@
+<% @places.each do |f| %>
+	
+	<div class="place_feed">
+		<h3><%= link_to f.name, f %></h3>
+		<p class="address_feed"><%= f.address %></p>
+		<% f.reviews.each do |r| %>
+			<p><%= r.review %></p>
+		<% end %>
+	</div>
+<% end %>
+
+<script>
+	$(document).ready(function(){
+
+
+		displayBigShow = function(x) {
+			var p = x;
+			var id = x;
+			console.log(id);
+			if ($('#big_Show').length) {
+				$('#big_Show').remove();
+				console.log(id);
+				$('#map_container').append("<%= escape_javascript(render partial: 'places/bigShow', locals: {place: @place, id: :id}) %>");
+			} else {
+				$('#map_container').append("<%= escape_javascript(render partial: 'places/bigShow', locals: {place: @place, id: :id}) %>");
+			}
+		};
+	});
+</script>

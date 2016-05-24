@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  get 'places/index'
-
-  get 'places/new'
-
-  get 'places/show'
 
   root 'home#index'
 
@@ -11,9 +6,20 @@ Rails.application.routes.draw do
   post '/log_in' => 'sessions#create'
   get '/log_out' => 'sessions#destroy'
 
+  get '/big_Show/:id' => 'places#show'
+
+  get '/_bigShow/:id' => 'places#show'
+
+  post '/follow/:id' => 'relationships#create', as: :follow
+  post '/unfollow/:id' => 'relationships#destroy', as: :unfollow
+
   resources :users
+  resources :places
+  # resources :reviews
 
-
+  resources :places do
+    resources :reviews
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,3 +1,65 @@
 // Place all the styles related to the places controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.place_feed {
+	border-bottom: 1px solid #000000;
+
+	.address_feed {
+		
+	}
+}
+
+#big_Show {
+	background-color: #ffffff;
+	position: absolute;
+	z-index: 10;
+	top: 10px;
+	width: 30%;
+	max-width: 400px;
+	min-width: 300px;
+	max-height: 500px;
+	overflow: scroll;
+	left: 34%;
+	right: 35%;
+	padding: 20px;
+	box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+
+	.user_place {
+		border-top: 1px solid #000000;
+
+		.u_p_review {
+			width: 90%;
+			margin: 0 auto;
+
+			p {
+				margin: 0;
+			}
+		}
+	}
+
+	.x_close {
+		float: right;
+	}
+
+	#newReview {
+		margin: 25 auto;
+		padding: 10px;
+		text-align: center;
+		border-top: 1px solid #000000;
+
+		form {
+
+		}
+
+		.r_user_input {
+			font-size: 20px;
+			font-weight: 300;
+			border: 1px solid #000000;
+		}
+	}
+
+	.place_review {
+		border-top: 1px solid #000000;
+		margin-top: 10px;
+	}
+}

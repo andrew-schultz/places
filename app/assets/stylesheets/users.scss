@@ -3,13 +3,19 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #signup {
-	margin: 0 auto;
+	position: absolute;
+	top: 8vh;
+	left: 39%;
+	right: 40%;
 	width: 300px;
 	text-align: center;
+	z-index: 10;
+	background-color: #ffffff;
+	padding: 20px;
+	box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
 
 	h1 {
-		padding-top: 50px;
-		padding-bottom: 50px;
+		padding-bottom: 30px;
 	}
 
 	label {

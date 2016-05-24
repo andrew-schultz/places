@@ -17,4 +17,9 @@
 
 $(document).ready(function(){
 	$('.flash').delay(1000).fadeOut(1000);
+
+	$('.x_close').on('click', function(){
+		$(this).parent().remove();
+	});
+
 });

@@ -1,0 +1,19 @@
+	<div class="x_close">&#10006</div>
+	<h1>New Place</h1>
+	<%= form_for @place do |p| %>
+		<%= p.label :name %>
+		<br>
+		<%= p.text_field :name, :id => "name", :class => "user_input" %>
+		<br>
+		<br>
+		<%= p.label :address %>
+		<br>
+		<%= p.text_field :address, :id => "address", :class => "user_input" %>
+		<br>
+		
+		<%= p.hidden_field :zip, :id => "zip", :class => "user_input" %>
+		<%= p.hidden_field :latitude, :id => "latitude", :class => "user_input" %>
+		<%= p.hidden_field :longitude, :id => "longitude", :class => "user_input" %>
+		<%= p.hidden_field :user_id, :value => @user.id %>
+		<%= p.submit "Create", :class => "circle_button" %>
+	<% end %>

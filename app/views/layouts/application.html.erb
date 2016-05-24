@@ -7,6 +7,8 @@
   <%= csrf_meta_tags %>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.css' rel='stylesheet' />
   <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.css' type='text/css' />
+  <script type="text/javascript" src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.js'></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.js'></script>
 </head>
 <body>
 
@@ -45,6 +47,158 @@
 	</header>
 <% end %>
 <%= yield %>
+<script type="text/javascript">
+
+		mapboxgl.accessToken = 'pk.eyJ1IjoiYXMxNzMxNzEiLCJhIjoiY2lsNDR6bWdwM3cxb3Z5bTNvbmtmeTJsbiJ9.16HxpvRVaoKgLOBG9L-Quw';
+
+		// generates a new map
+		var map = new mapboxgl.Map({
+	    	// container id
+	    	container: 'map',
+	    	//hosted style id
+	    	style: 'mapbox://styles/as173171/cimctg4mr00dm9lm1466xegi0',
+	    	// starting position
+	   		center: [-73.977800, 40.715824],
+	   		// starting zoom
+	   		zoom: 13,
+		});
+
+
+		// disable zooming on scroll, makes it easier to navigate around the page without accidentally zooming way out or way in
+		map.scrollZoom.disable();
+		// disables zooming on a double click
+		map.doubleClickZoom.disable();
+
+		<% if current_user %>
+		map.on('style.load', function(){
+
+			map.addSource('single-point', {
+				"type": "geojson",
+				"data": {
+					"type": "FeatureCollection",
+					"features": []
+				}
+			});
+
+			map.addSource('places', {
+				"type": "geojson",
+				"data": {
+					"type": "FeatureCollection",
+					"features": [
+					<% @user.places.each do |f| %>{
+						"geometry": {
+							"type": "Point",
+							"coordinates": [<%= f.longitude %>, <%= f.latitude %>]
+						},
+						"properties": {
+							"title": '<%= f.name %>',
+							"address": '<%= f.address %>',
+							"id": '<%= f.id %>'
+						}
+					},<% end %>
+					]
+				}
+			})
+
+			map.addLayer({
+				"id": "places",
+				"type": "circle",
+				"source": "places",
+				"paint": {
+					"circle-color": "#26244d",
+					"circle-radius": 10,
+				},
+			});
+
+			map.addLayer({
+				"id": "point",
+				"source": "single-point",
+				"type": "circle",
+				"paint": {
+					"circle-radius": 10,
+					"circle-color": "#26244d"
+				}
+			});
+
+			map.on('click', function(data) {
+			  var e = data && data.originalEvent;
+			  console.log(data)
+			  console.log('got click ' + (e ? 'button = ' + e.button : ''));
+			});
+
+			// map.on('mousemove', function(e) {
+			// 	var features = map.Features(e.point, { layers: ['places'] });
+
+			// 	map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+			// 	if (!features.length) {
+			//         popup.remove();
+			//         return;
+			//     }
+
+			//     var feature = features[0];
+
+			//     popup.setLngLat(feature.geometry.coordinates)
+			//         .setHTML(feature.properties.title)
+			//         .addTo(map);
+
+			// });
+
+			map.on('click', function(e) {
+				var features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
+				// var features = map.Features(e.point, { layers: ['places']});
+				map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+				if (!features.length) {
+			        popup.remove();
+			        return;
+			    }
+
+			    var feature = features[0];
+			     console.log(feature)
+			    popup.setLngLat(feature.geometry.coordinates)
+			        .setHTML(feature.properties.title)
+			        .addTo(map);
+			});
+
+
+			// defines a variable and generates a popup
+			var popup = new mapboxgl.Popup({
+				closeButton: false,
+  				closeOnClick: false
+			});
+
+			// Adds geocoder
+			var geocoder = new mapboxgl.Geocoder();
+
+			map.addControl(geocoder);
+
+			geocoder.on('result', function(ev) {
+				map.getSource('single-point').setData(ev.result.geometry);
+				var thing = ev.result.geometry.coordinates;
+				console.log(thing);
+				// map.panTo(ev.result.geometry.coordinates);
+				var result = ev.result;
+				var name = ev.result.text;
+				console.log(name);
+
+				formInit(result);
+			});
+
+			function formInit(x){
+
+				$("#form").fadeIn(350);
+
+				$("#name").val(x.text);
+				$("#latitude").val(x.geometry.coordinates[1]);
+				$("#longitude").val(x.geometry.coordinates[0]);
+				$("#address").val(x.place_name);
+				$("#zip").val(x.context[2].text);
+			};
+
+		});
+		<% end %>
+	</script>
 
 <footer>
 

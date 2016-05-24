@@ -1,0 +1,8 @@
+$(document).ready(function(){
+	if ($('#big_Show').length) {
+		$('#big_Show').remove();
+		$('#big_Show').html("<%= escape_javascript(render 'places/bigShow/#{x} ' %>");
+	} else {
+		$('#map_container').html("<%= escape_javascript(render 'places/bigShow/#{x}' %>");
+	};
+});
